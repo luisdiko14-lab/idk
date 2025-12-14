@@ -1,0 +1,11 @@
+{
+  "name": "discord-gift-webhook",
+  "version": "1.0.0",
+  "description": "Send fake and maybe some real discord.gift links to a webhook",
+  "main": "j.javascript.version.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {}
+}
