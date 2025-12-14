@@ -1,2 +1,0 @@
-type in the github workspace or visual studio code python {fileName.py or p.py which is the orginal}
-and the code will run!
