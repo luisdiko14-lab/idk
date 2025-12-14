@@ -1,4 +1,4 @@
-# How to Run the Discord Fake Nitro Scripts
+# How to Run the Discord Fake (and maybe real) Nitro Scripts
 
 This guide explains how to run both the Python script (`p.py`) and the JavaScript script (`j.javascript.version.js`) to generate 29 fake Discord gift links to a webhook.
 
