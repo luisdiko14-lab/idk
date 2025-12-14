@@ -1,0 +1,60 @@
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Drawing
+
+$url = "https://github.com/luisdiko14-lab/idk/archive/refs/tags/code.zip"
+$outFile = "$PSScriptRoot\code.zip"
+
+# Fake download config
+$fakeTotalMB = 5500
+$speedMB = 15
+$interval = 0.1
+
+$form = New-Object System.Windows.Forms.Form
+$form.Text = "Downloading..."
+$form.Size = New-Object System.Drawing.Size(420,160)
+$form.StartPosition = "CenterScreen"
+$form.Topmost = $true
+
+$label = New-Object System.Windows.Forms.Label
+$label.Text = "Downloading..."
+$label.AutoSize = $true
+$label.Location = New-Object System.Drawing.Point(20,15)
+
+$progress = New-Object System.Windows.Forms.ProgressBar
+$progress.Location = New-Object System.Drawing.Point(20,45)
+$progress.Size = New-Object System.Drawing.Size(360,20)
+$progress.Minimum = 0
+$progress.Maximum = $fakeTotalMB
+
+$status = New-Object System.Windows.Forms.Label
+$status.AutoSize = $true
+$status.Location = New-Object System.Drawing.Point(20,80)
+
+$form.Controls.Add($label)
+$form.Controls.Add($progress)
+$form.Controls.Add($status)
+
+$form.Shown.Add({
+    $downloaded = 0
+    while ($downloaded -lt $fakeTotalMB) {
+        Start-Sleep -Milliseconds 100
+        $downloaded += $speedMB
+        if ($downloaded -gt $fakeTotalMB) { $downloaded = $fakeTotalMB }
+
+        $progress.Value = $downloaded
+        $status.Text = "$downloaded MB / $fakeTotalMB MB  (15 MB/s)"
+        [System.Windows.Forms.Application]::DoEvents()
+    }
+
+    $status.Text = "Finalizing download..."
+    Start-Sleep -Seconds 1
+
+    try {
+        Invoke-WebRequest -Uri $url -OutFile $outFile -UseBasicParsing
+        $status.Text = "Download complete ✓ Saved as code.zip"
+    } catch {
+        $status.Text = "Download failed ✗"
+    }
+})
+
+[System.Windows.Forms.Application]::Run($form)
